@@ -1,0 +1,2 @@
+replicaCount: 1
+image: robjahn/keptn-orders-customer-service:1
