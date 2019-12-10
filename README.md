@@ -47,8 +47,16 @@ keptn version
 
 ### install Keptn
 
+**NOTE: CHOOSE ONE OF THESE NOT BOTH**
+
 ```
+# for Google GKE cluster
+keptn install --keptn-version=release-0.6.0.beta2 --platform=gke
+
+# for Amazon EKS cluster
 keptn install --keptn-version=release-0.6.0.beta2 --platform=eks
+
+# for either cluster 
 kubectl -n keptn get pods
 ```
 
