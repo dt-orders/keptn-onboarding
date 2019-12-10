@@ -140,28 +140,24 @@ cd ~/keptn-qualitygate-examples/simpleservice/keptn
 
 ```
 cd ~/keptn-onboarding/frontend
-keptn onboard service frontend --project=keptnorders --chart=./charts
 keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 
 cd ~/keptn-onboarding/customer
-keptn onboard service customer --project=keptnorders --chart=./charts
 keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 keptn add-resource --project=keptnorders --service=customer --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=customer --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 
 cd ~/keptn-onboarding/catalog
-keptn onboard service catalog --project=keptnorders --chart=./charts
 keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 
 cd ~/keptn-onboarding/order 
-keptn onboard service order --project=keptnorders --chart=./charts
 keptn add-resource --project=keptnorders --service=order --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
 keptn add-resource --project=keptnorders --service=order --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
 keptn add-resource --project=keptnorders --service=order --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
