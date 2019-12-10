@@ -224,13 +224,13 @@ keptn send event new-artifact --project=keptnorders --service=order --image=robj
 echo "View bridge @ https://bridge.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})/#/"
 
 # view front-end
-echo "STAGING    @ https://frontend.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
-echo "PRODUCTION @ https://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"i\
+echo "STAGING    @ http://frontend.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "PRODUCTION @ http://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"i\
 
 # services
-echo "STAGING CATALOG  @ https://catalog.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
-echo "STAGING CUSTOMER @ https://customer.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
-echo "STAGING ORDER    @ https://order.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "STAGING CATALOG  @ http://catalog.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "STAGING CUSTOMER @ http://customer.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "STAGING ORDER    @ http://order.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
 ```
 
 
