@@ -1,0 +1,20 @@
+steps:
+- step:
+    repository: https://github.com/keptn-orders/keptn-onboarding.git
+    project:
+    - path: /catalog/neoload/catalog_basic.yaml
+    - path: /catalog/neoload/load_template/load_template.nlp
+    constant_variables:
+    - name: server_host
+      value: catalog.keptnorders-staging.svc.cluster.local
+    - name: server_port
+      value: 8080
+    description: BasicCheck
+    scenario: BasicCheck
+    infrastructure:
+      local_LG:
+      - name: lg1
+      populations:
+      - name: BasicCheck
+        lgs:
+        - name: lg1

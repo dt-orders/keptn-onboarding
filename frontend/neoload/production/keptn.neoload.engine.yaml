@@ -1,0 +1,20 @@
+steps:
+- step:
+    repository: https://github.com/keptn-orders/keptn-onboarding.git
+    project:
+    - path: /frontend/neoload/frontend_basic.yaml
+    - path: /frontend/neoload/load_template/load_template.nlp
+    constant_variables:
+    - name: server_host
+      value: frontend.keptnorders-production.svc.cluster.local
+    - name: server_port
+      value: 80
+    description: FrontLoad
+    scenario: FrontLoad
+    infrastructure:
+      local_LG:
+      - name: lg1
+      populations:
+      - name: FrontLoad
+        lgs:
+        - name: lg1

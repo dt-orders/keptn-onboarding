@@ -11,7 +11,8 @@ Assumptions:
   * helper scripts -- https://github.com/grabnerandi/keptn-qualitygate-examples.git
   * keptn dynatrace service -- https://github.com/keptn-contrib/dynatrace-service
   * this repo for project files -- https://github.com/keptn-orders/keptn-onboarding.git
-
+* You have [Neoload Web](https://neoload.saas.neotys.com) account. Generate an [API token](https://www.neotys.com/documents/doc/nlweb/latest/en/html/#24270.htm)
+* Create NeoLoad Web [Managed Zone for the Load Testing INfrastructure used by Keptn](https://www.neotys.com/documents/doc/nlweb/latest/en/html/#27521.htm#o39043)
 # Cluster setup
 
 For requirements and example provisioning script, refer to [Keptn docs](https://keptn.sh/docs/0.6.0/installation/setup-keptn/#setup-kubernetes-cluster)
@@ -91,7 +92,16 @@ cd ~/dynatrace-service/deploy/scripts
 ./deployDynatraceOnEKS.sh
 kubectl -n dynatrace get pods -w
 ```
+## NeoLoad Service install
 
+```
+cd ~
+git clone --branch 0.6.0 https://github.com/keptn-contrib/neoload-service --single-branch
+
+cd ~/neoload-service/installer/
+./defineNeoLoadWebCredentials.sh
+./deployNeoLoadWeb.sh
+```
 ### create keptn project
 
 Make new repo with a README file
@@ -159,50 +169,31 @@ cd ~/keptn-qualitygate-examples/simpleservice/keptn
 ./enableDynatraceSLIForProject.sh keptnorders
 ```
 
-### Add testing resources files
-
-
-<details><summary>
-Neoload
-</summary>
+### Add NeoLoad testing resources files
 
 ```
-# To be filled in
+cd ~/keptn-onboarding/frontend/neoload/staging
+keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+cd ~/keptn-onboarding/frontend/neoload/production
+keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+
+cd ~/keptn-onboarding/order/neoload/staging
+keptn add-resource --project=keptnorders --service=order --stage=staging --resource=keptn.neoload.engine.yaml--resourceUri=keptn.neoload.engine.yaml
+cd ~/keptn-onboarding/order/neoload/production
+keptn add-resource --project=keptnorders --service=order --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+
+cd ~/keptn-onboarding/customer/neoload/staging
+keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=quality-gates/simple_slo.yaml --resourceUri=keptn.neoload.engine.yaml
+cd ~/keptn-onboarding/customer/neoload/production
+keptn add-resource --project=keptnorders --service=customer --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=keptn.neoload.engine.yaml
+
+cd ~/keptn-onboarding/catalog/neoload/staging
+keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+cd ~/keptn-onboarding/catalog/neoload/production
+keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 ```
 
-</details>
 
-
-<details><summary>
-Jmeter
-</summary>
-
-```
-cd ~/keptn-onboarding/frontend
-keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-
-cd ~/keptn-onboarding/customer
-keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-keptn add-resource --project=keptnorders --service=customer --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=customer --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-
-cd ~/keptn-onboarding/catalog
-keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-
-cd ~/keptn-onboarding/order 
-keptn add-resource --project=keptnorders --service=order --stage=staging --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=order --stage=staging --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-keptn add-resource --project=keptnorders --service=order --stage=production --resource=jmeter/basiccheck.jmx --resourceUri=jmeter/basiccheck.jmx
-keptn add-resource --project=keptnorders --service=order --stage=production --resource=jmeter/load.jmx --resourceUri=jmeter/load.jmx
-```
-</details>
 
 ### send deployment events
 
