@@ -198,6 +198,9 @@ keptn add-resource --project=keptnorders --service=order --stage=production --re
 
 ### send deployment events
 
+For the first time, ensure that the keptn CLI returns to the prompt without errors and that each 
+service completes the deployment into staging before sending next event by monitoring the keptn bridge
+
 ```
 keptn send event new-artifact --project=keptnorders --service=frontend --image=robjahn/keptn-orders-front-end --tag=1
 keptn send event new-artifact --project=keptnorders --service=customer --image=robjahn/keptn-orders-customer-service --tag=1
@@ -213,9 +216,14 @@ keptn send event new-artifact --project=keptnorders --service=order --image=robj
 echo "View bridge @ https://bridge.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})/#/"
 
 # view front-end
-echo "STAGING @ https://frontend.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
-echo "PRODUCTION @ https://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "STAGING    @ https://frontend.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "PRODUCTION @ https://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"i\
 
+# services
+echo "STAGING CATALOG  @ https://catalog.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "STAGING CUSTOMER @ https://customer.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+echo "STAGING ORDER    @ https://order.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
+```
 
 
 
