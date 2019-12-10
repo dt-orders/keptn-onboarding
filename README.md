@@ -51,7 +51,7 @@ keptn configure domain $DOMAIN --keptn-version=release-0.6.0.beta2
 ```
 cd ~
 git clone https://github.com/grabnerandi/keptn-qualitygate-examples.git
-cd keptn-qualitygate-examples/simpleservice/keptn/
+cd ~/keptn-qualitygate-examples/simpleservice/keptn/
 ./exposeBridge.sh
 ```
 
@@ -80,7 +80,7 @@ git clone https://github.com/keptn-orders/keptn-onboarding.git
 cd ~/keptn-onboarding
 export GIT_USER= <your id>
 export GIT_TOKEN= <your personal access token>
-export GIT URL= <eg. https://github.com/robertjahn/keptn060-beta2-keptn-orders>
+export GIT_URL= <eg. https://github.com/robertjahn/keptn060-beta2-keptn-orders>
 keptn create project keptnorders --shipyard=./shipyard.yaml --git-user=$GIT_USER --git-token=$GIT_TOKEN --git-remote-url=$GIT_URL
 ```
 
@@ -97,16 +97,19 @@ keptn onboard service customer --project=keptnorders --chart=./customer/charts
 ### add SLO resources
 
 ```
-cd ~/keptn-onboarding
+cd ~/keptn-onboarding/frontend
 keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 
+cd ~/keptn-onboarding/order
 keptn add-resource --project=keptnorders --service=order --stage=staging --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 keptn add-resource --project=keptnorders --service=order --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 
+cd ~/keptn-onboarding/customer
 keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 keptn add-resource --project=keptnorders --service=customer --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 
+cd ~/keptn-onboarding/catalog
 keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 ```
@@ -171,8 +174,8 @@ keptn add-resource --project=keptnorders --service=order --stage=production --re
 ```
 keptn send event new-artifact --project=keptnorders --service=frontend --image=robjahn/keptn-orders-front-end --tag=1
 keptn send event new-artifact --project=keptnorders --service=customer --image=robjahn/keptn-orders-customer-service --tag=1
-keptn send event new-artifact --project=keptnorders --service=catalog --image=robjahn/keptn-orders-customer-service --tag=1
-keptn send event new-artifact --project=keptnorders --service=order--image=robjahn/keptn-orders-customer-service --tag=1
+keptn send event new-artifact --project=keptnorders --service=catalog --image=robjahn/keptn-orders-catalog-service --tag=1
+keptn send event new-artifact --project=keptnorders --service=order--image=robjahn/keptn-orders-order-service --tag=1
 ```
 
 view progess on keptn bridge. example: [https://bridge.keptn.jahn.demo.keptn.sh](https://bridge.keptn.jahn.demo.keptn.sh)
