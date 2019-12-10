@@ -171,7 +171,7 @@ keptn add-resource --project=keptnorders --service=order --stage=production --re
 keptn send event new-artifact --project=keptnorders --service=frontend --image=robjahn/keptn-orders-front-end --tag=1
 keptn send event new-artifact --project=keptnorders --service=customer --image=robjahn/keptn-orders-customer-service --tag=1
 keptn send event new-artifact --project=keptnorders --service=catalog --image=robjahn/keptn-orders-catalog-service --tag=1
-keptn send event new-artifact --project=keptnorders --service=order--image=robjahn/keptn-orders-order-service --tag=1
+keptn send event new-artifact --project=keptnorders --service=order --image=robjahn/keptn-orders-order-service --tag=1
 ```
 
 view progess on keptn bridge. example: [https://bridge.keptn.jahn.demo.keptn.sh](https://bridge.keptn.jahn.demo.keptn.sh)
