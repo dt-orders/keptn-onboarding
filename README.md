@@ -206,7 +206,7 @@ keptn add-resource --project=keptnorders --service=order --stage=production --re
 
 ### (optional) configure keptn-notification service
 
-**NOTE***
+**NOTE**
 This assumes you setup a slack or MS teams webhook. See README of notification-service for details
 
 ```
@@ -214,7 +214,9 @@ cd ~
 git clone https://github.com/keptn-contrib/notification-service.git
 cd notification-service/
 git checkout 060-compat
-# edit manifest with your webhook
+# edit manifest with your webhook URL
+# also change image value to:
+#    image: bacherfl/notification-service
 vi notification-service.yaml
 kubectl apply -f notification-service.yaml
 kubectl apply -f notification-distributors.yaml
