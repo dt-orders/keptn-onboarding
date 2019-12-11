@@ -30,7 +30,7 @@ user_paths:
         name: Basic Check
         steps:
         - request:
-            url: /customer/list.html
+            url: /list.html
             server: customer_host
             method: GET
     - think_time: 250ms
@@ -41,7 +41,7 @@ user_paths:
         name: Add customer
         steps:
         - request:
-            url: /customer/form.html
+            url: /form.html
             server: customer_host
             method: POST
             headers:
