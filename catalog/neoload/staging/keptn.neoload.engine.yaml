@@ -11,12 +11,12 @@ steps:
       value: catalog.keptnorders-staging.svc.cluster.local
     - name: server_port
       value: 80
-    description: BasicCheck
-    scenario: BasicCheck
+    description: Catalogload
+    scenario: Catalogload
     infrastructure:
       local_LG:
       - name: lg1
       populations:
-      - name: BasicCheck
+      - name: Catalogload
         lgs:
         - name: lg1

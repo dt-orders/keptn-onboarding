@@ -11,12 +11,12 @@ steps:
       value: order.keptnorders-staging.svc.cluster.local
     - name: server_port
       value: 80
-    description: BasicCheck
-    scenario: BasicCheck
+    description: OrderLoad
+    scenario: OrderLoad
     infrastructure:
       local_LG:
       - name: lg1
       populations:
-      - name: BasicCheck
+      - name: OrderLoad
         lgs:
         - name: lg1
