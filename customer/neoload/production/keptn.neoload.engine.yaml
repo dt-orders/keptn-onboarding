@@ -1,6 +1,8 @@
 steps:
 - step:
     repository: https://github.com/keptn-orders/keptn-onboarding.git
+    branch: neoload
+    teststrategy: performance
     project:
     - path: /customer/neoload/customer_basic.yaml
     - path: /customer/neoload/load_template/load_template.nlp
