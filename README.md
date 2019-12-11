@@ -108,7 +108,7 @@ Make new repo with a README file
 
 ```
 cd ~
-git clone https://github.com/keptn-orders/keptn-onboarding.git
+git clone  --branch neoload https://github.com/keptn-orders/keptn-onboarding.git
 
 cd ~/keptn-onboarding
 export GIT_USER= <your id>
@@ -178,14 +178,14 @@ cd ~/keptn-onboarding/frontend/neoload/production
 keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 
 cd ~/keptn-onboarding/order/neoload/staging
-keptn add-resource --project=keptnorders --service=order --stage=staging --resource=keptn.neoload.engine.yaml--resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=order --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 cd ~/keptn-onboarding/order/neoload/production
 keptn add-resource --project=keptnorders --service=order --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 
 cd ~/keptn-onboarding/customer/neoload/staging
-keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=quality-gates/simple_slo.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 cd ~/keptn-onboarding/customer/neoload/production
-keptn add-resource --project=keptnorders --service=customer --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=customer --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 
 cd ~/keptn-onboarding/catalog/neoload/staging
 keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
