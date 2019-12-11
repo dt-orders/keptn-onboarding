@@ -10,7 +10,7 @@ steps:
     - name: server_host
       value: catalog.keptnorders-staging.svc.cluster.local
     - name: server_port
-      value: 8080
+      value: 80
     description: BasicCheck
     scenario: BasicCheck
     infrastructure:

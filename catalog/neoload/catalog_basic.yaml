@@ -30,7 +30,7 @@ user_paths:
         name: Basic Check
         steps:
         - request:
-            url: /catalog/list.html
+            url: /list.html
             server: catalog_host
             method: GET
     - think_time: 250ms
@@ -41,7 +41,7 @@ user_paths:
         name: Add Item
         steps:
         - request:
-            url: /catalog/form.html
+            url: /form.html
             server: catalog_host
             method: POST
             headers:
