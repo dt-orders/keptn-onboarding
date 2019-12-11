@@ -71,5 +71,5 @@ scenarios:
   - name: BasicCheck
     constant_load:
       users: 30
-      duration: 2m
+      duration: 4m
       rampup: 30s
