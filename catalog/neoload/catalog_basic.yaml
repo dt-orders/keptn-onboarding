@@ -68,7 +68,7 @@ scenarios:
       duration: 15 iterations
 - name: Catalogload
   populations:
-  - name: BasicCheck
+  - name: Catalogload
     constant_load:
       users: 30
       duration: 2m
