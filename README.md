@@ -255,24 +255,24 @@ echo "STAGING ORDER    @ http://order.keptnorders-staging.$(kubectl get cm keptn
 
 1. Add service naming rule in Dynatrace
 
-  * navigate to: settings -> server side monitoring -> service naming rules
-  * add rule called keptn
-  * use this rule 
-  ```
-  k8-{ProcessGroup:Environment:keptn_project}-{ProcessGroup:Environment:keptn_stage}-{ProcessGroup:Environment:keptn_service}-{ProcessGroup:Environment:keptn_deployment}
-  ```
-  * use these conditions:
-    * 'kubernetes namespace' exist
-    * 'service tags' equala 'keptn_project'
+    * navigate to: settings -> server side monitoring -> service naming rules
+    * add rule called keptn
+    * use this rule 
+      ```
+      k8-{ProcessGroup:Environment:keptn_project}-{ProcessGroup:Environment:keptn_stage}-{ProcessGroup:Environment:keptn_service}-{ProcessGroup:Environment:keptn_deployment}
+      ```
+    * use these conditions:
+      * 'kubernetes namespace' exist
+      * 'service tags' equala 'keptn_project'
 
-1. Adjust your .profile with these alias for short cuts
-  ```
-  alias kk='kubectl -n keptn'
-  alias k='kubectl'
-  alias ks='kubectl -n keptnorders-staging'
-  alias kp='kubectl -n keptnorders-production'
-  ```
-  then you can run commands like ```kk get pods```
+1. Add to shell or adjust your .profile with these alias for short cuts
+    ```
+    alias kk='kubectl -n keptn'
+    alias k='kubectl'
+    alias ks='kubectl -n keptnorders-staging'
+    alias kp='kubectl -n keptnorders-production'
+    ```
+    then you can run commands like ```kk get pods```
 
 
 
