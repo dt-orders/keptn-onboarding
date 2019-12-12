@@ -1,7 +1,9 @@
 # Overview
 
 This is repo contains the helm charts and load testing scripts to deploy the keptn-orders
-application. 
+application.  Here is a diagram of the various components.
+
+<img src="images/setup.png" width="600"/>
 
 Assumptions:
 * You provide a Kubernetes cluster
@@ -11,6 +13,16 @@ Assumptions:
   * helper scripts -- https://github.com/grabnerandi/keptn-qualitygate-examples.git
   * keptn dynatrace service -- https://github.com/keptn-contrib/dynatrace-service
   * this repo for project files -- https://github.com/keptn-orders/keptn-onboarding.git
+
+# Demo App
+
+The demo Order processing application 4 components, a front-end and 3 Java spring-boot backend services. The front-end look like this.
+
+<img src="images/keptn-orders-app.png" width="300"/>
+
+Once monitored by Dynatrace, a multi-tier call flow will be available such as shown below.
+
+<img src="images/dt-call-flow.png" width="400"/>
 
 # Cluster setup
 
