@@ -53,7 +53,7 @@ user_paths:
 populations:
 - name: BasicCheck
   user_paths:
-  - name: CartCheck
+  - name: CatalogCheck
     distribution: 100%
 - name: Catalogload
   user_paths:
