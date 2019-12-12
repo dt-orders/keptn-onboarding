@@ -237,14 +237,13 @@ keptn send event new-artifact --project=keptnorders --service=order --image=robj
 
 ### Monitor and view application
 
-
 ```
 # view progess on keptn bridge
 echo "View bridge @ https://bridge.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})/#/"
 
 # view front-end
 echo "STAGING    @ http://frontend.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
-echo "PRODUCTION @ http://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"i\
+echo "PRODUCTION @ http://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
 
 # services
 echo "STAGING CATALOG  @ http://catalog.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
@@ -252,6 +251,28 @@ echo "STAGING CUSTOMER @ http://customer.keptnorders-staging.$(kubectl get cm ke
 echo "STAGING ORDER    @ http://order.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
 ```
 
+### Misc Tips
+
+1. Add service naming rule in Dynatrace
+
+  * navigate to: settings -> server side monitoring -> service naming rules
+  * add rule called keptn
+  * use this rule 
+  ```
+  k8-{ProcessGroup:Environment:keptn_project}-{ProcessGroup:Environment:keptn_stage}-{ProcessGroup:Environment:keptn_service}-{ProcessGroup:Environment:keptn_deployment}
+  ```
+  * use these conditions:
+    * 'kubernetes namespace' exist
+    * 'service tags' equala 'keptn_project'
+
+1. Adjust your .profile with these alias for short cuts
+  ```
+  alias kk='kubectl -n keptn'
+  alias k='kubectl'
+  alias ks='kubectl -n keptnorders-staging'
+  alias kp='kubectl -n keptnorders-production'
+  ```
+  then you can run commands like ```kk get pods```
 
 
 
