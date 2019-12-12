@@ -161,20 +161,16 @@ cd ~/keptn-qualitygate-examples/simpleservice/keptn
 
 ### Add testing resources files
 
-
 <details><summary>
-Neoload
+Neoload Load tests
 </summary>
 
-```
-# To be filled in
-```
+Refer to the [NEOLOAD readme](NEOLOAD.md) for details.
 
 </details>
 
-
 <details><summary>
-Jmeter
+Jmeter Load Tests
 </summary>
 
 ```
