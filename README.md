@@ -22,7 +22,7 @@ The demo Order processing application 4 components, a front-end and 3 Java sprin
 
 Once monitored by Dynatrace, a multi-tier call flow will be available such as shown below.
 
-<img src="images/dt-call-flow.png" width="400"/>
+<img src="images/dt-call-flow.png"/>
 
 # Cluster setup
 
