@@ -17,7 +17,7 @@ variables:
     min: 0
     max: 999
     predictable: false
-        change_policy: each_request
+    change_policy: each_request
 servers:
 - name: catalog_host
   host: ${server_host}
