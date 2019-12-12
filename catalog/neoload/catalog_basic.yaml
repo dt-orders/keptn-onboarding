@@ -1,0 +1,75 @@
+name: Catalog_BasicCheck_neoload
+variables:
+- constant:
+    name: basicpath
+    value: CHECK_TO_REPLACE
+- constant:
+    name: tagurl
+    value: TAGURL_TO_REPLACE
+- constant:
+    name: server_host
+    value: HOST_TO_REPLACE
+- constant:
+    name: server_port
+    value: PORT_TO_REPLACE
+- random_number:
+    name: random_number_variable
+    min: 0
+    max: 999
+    predictable: false
+    change_policy: each_request
+servers:
+- name: catalog_host
+  host: ${server_host}
+  port: ${server_port}
+user_paths:
+- name: CatalogCheck
+  actions:
+    steps:
+    - transaction:
+        name: Basic Check
+        steps:
+        - request:
+            url: /list.html
+            server: catalog_host
+            method: GET
+    - think_time: 250ms
+- name: CatalogLoad
+  actions:
+    steps:
+    - transaction:
+        name: Add Item
+        steps:
+        - request:
+            url: /form.html
+            server: catalog_host
+            method: POST
+            headers:
+            - Cache-Control: max-age=0
+            - Content-Type: application/x-www-form-urlencoded
+            body: |
+              name=szsdz${random_number_variable}&price=${random_number_variable}
+    - think_time: 250ms
+populations:
+- name: BasicCheck
+  user_paths:
+  - name: CatalogCheck
+    distribution: 100%
+- name: Catalogload
+  user_paths:
+  - name: CatalogLoad
+    distribution: 100%
+scenarios:
+- name: BasicCheck
+  populations:
+  - name: BasicCheck
+    constant_load:
+      users: 1
+      duration: 15 iterations
+- name: Catalogload
+  populations:
+  - name: Catalogload
+    constant_load:
+      users: 30
+      duration: 2m
+      rampup: 30s

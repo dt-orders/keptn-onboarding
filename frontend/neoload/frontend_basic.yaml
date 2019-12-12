@@ -1,0 +1,91 @@
+name: Frontend_BasicCheck_neoload
+variables:
+- constant:
+    name: basicpath
+    value: CHECK_TO_REPLACE
+- constant:
+    name: tagurl
+    value: TAGURL_TO_REPLACE
+- constant:
+    name: server_host
+    value: HOST_TO_REPLACE
+- constant:
+    name: server_port
+    value: PORT_TO_REPLACE
+servers:
+- name: frontEnd_host
+  host: ${server_host}
+  port: ${server_port}
+user_paths:
+- name: FrontCheck
+  actions:
+    steps:
+    - transaction:
+        name: Basic Check
+        steps:
+        - request:
+            url: /
+            server: frontEnd_host
+            method: GET
+            headers:
+            - Cache-Control: no-cache
+            - Content-Type: application/json
+            - json: "true"
+    - think_time: 250ms
+- name: FrontLoad
+  actions:
+    steps:
+    - transaction:
+        name: Home
+        steps:
+        - request:
+            url: /
+            server: frontEnd_host
+            method: GET
+    - think_time: 250ms
+    - transaction:
+        name: Customer
+        steps:
+        - request:
+            url: /customer/list.hmtl
+            server: frontEnd_host
+            method: GET
+    - think_time: 250ms
+    - transaction:
+        name: Catalog
+        steps:
+        - request:
+            url: /catalog/list.hmtl
+            server: frontEnd_host
+            method: GET
+    - think_time: 250ms
+    - transaction:
+        name: Order
+        steps:
+        - request:
+            url: /order/
+            server: frontEnd_host
+            method: GET
+populations:
+- name: BasicCheck
+  user_paths:
+  - name: FrontCheck
+    distribution: 100%
+- name: FrontLoad
+  user_paths:
+  - name: FrontLoad
+    distribution: 100%
+scenarios:
+- name: BasicCheck
+  populations:
+  - name: BasicCheck
+    constant_load:
+      users: 1
+      duration: 15 iterations
+- name: FrontLoad
+  populations:
+  - name: BasicCheck
+    constant_load:
+      users: 30
+      duration: 2m
+      rampup: 30s

@@ -1,0 +1,75 @@
+name: Customer_BasicCheck_neoload
+variables:
+- constant:
+    name: basicpath
+    value: CHECK_TO_REPLACE
+- constant:
+    name: tagurl
+    value: TAGURL_TO_REPLACE
+- constant:
+    name: server_host
+    value: HOST_TO_REPLACE
+- constant:
+    name: server_port
+    value: PORT_TO_REPLACE
+- random_number:
+    name: random_number_variable
+    min: 0
+    max: 999
+    predictable: false
+    change_policy: each_request
+servers:
+- name: customer_host
+  host: ${server_host}
+  port: ${server_port}
+user_paths:
+- name: CustomerCheck
+  actions:
+    steps:
+    - transaction:
+        name: Basic Check
+        steps:
+        - request:
+            url: /list.html
+            server: customer_host
+            method: GET
+    - think_time: 250ms
+- name: CustomerLoad
+  actions:
+    steps:
+    - transaction:
+        name: Add customer
+        steps:
+        - request:
+            url: /form.html
+            server: customer_host
+            method: POST
+            headers:
+            - Cache-Control: max-age=0
+            - Content-Type: application/x-www-form-urlencoded
+            body: |
+              name=test${random_number_variable}&firstname=hernik${random_number_variable}&email=henrik${random_number_variable}.rexed%40neotys.com&street=${random_number_variable}+avenue+du+chateau+de+jouques&city=Gemenos
+    - think_time: 250ms
+populations:
+- name: BasicCheck
+  user_paths:
+  - name: CustomerCheck
+    distribution: 100%
+- name: CustomerLoad
+  user_paths:
+  - name: CustomerLoad
+    distribution: 100%
+scenarios:
+- name: BasicCheck
+  populations:
+  - name: BasicCheck
+    constant_load:
+      users: 1
+      duration: 15 iterations
+- name: CustomerLoad
+  populations:
+  - name: BasicCheck
+    constant_load:
+      users: 30
+      duration: 4m
+      rampup: 30s
