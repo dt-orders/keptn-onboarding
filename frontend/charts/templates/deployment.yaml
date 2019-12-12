@@ -4,7 +4,7 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 1
+  replicas: {{ .Values.replicaCount }}
   strategy:
     rollingUpdate:
       maxUnavailable: 0
@@ -50,19 +50,19 @@ spec:
           httpGet:
             path: /
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 20
           periodSeconds: 10
           timeoutSeconds: 15
         readinessProbe:
           httpGet:
             path: /
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 20
           periodSeconds: 10
           timeoutSeconds: 15
         resources:
           limits:
-            cpu: 100m
+            cpu: 200m
             memory: 128Mi
           requests:
             cpu: 100m
