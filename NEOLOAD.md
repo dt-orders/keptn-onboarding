@@ -11,7 +11,7 @@ You will need to do a few things to be setup for testing with NeoLoad.
 
 1. To disable the jmeter-service by deleting its distributor by running this command
     ```
-    kubectl delete deplyoment jmeter-service-deployment-distributor -n keptn
+    kubectl -n keptn delete deployment jmeter-service-deployment-distributor
     ```
 1. Within NeoLoad
     * have a licence
