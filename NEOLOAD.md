@@ -14,9 +14,9 @@ You will need to do a few things to be setup for testing with NeoLoad.
     kubectl -n keptn delete deployment jmeter-service-deployment-distributor
     ```
 1. Within NeoLoad
-    * have a licence
-    * create an API token for the NeoLoad Keptn service
-    * configure a Neoad environment zone
+    * Have a a [Neoload Web](https://neoload.saas.neotys.com) account.
+    * Generate an [API token](https://www.neotys.com/documents/doc/nlweb/latest/en/html/#24270.htm)
+    * Create NeoLoad Web [Managed Zone for the Load Testing INfrastructure used by Keptn](https://www.neotys.com/documents/doc/nlweb/latest/en/html/#27521.htm#o39043)
 
 1. Deploy NeoLoad Keptn service
     ```
