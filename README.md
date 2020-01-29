@@ -147,27 +147,52 @@ keptn add-resource --project=keptnorders --service=catalog --stage=staging --res
 keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=quality-gates/simple_slo.yaml --resourceUri=slo.yaml
 ```
 
-### add SLO config map
+### install Dynatrace SLI service
 
 ```
-cd ~/keptn-onboarding
-kubectl apply -f dynatrace-sli-config-keptnorders.yaml
+cd ~
+git clone https://github.com/keptn-contrib/dynatrace-sli-service
+cd ~/dynatrace-sli-service
+kubectl apply -f deploy/service.yaml
+kubectl apply -f deploy/distributor.yaml
 ```
 
-### install SLI service
+### install NeoLoad SLI service
 
 ```
-cd ~/keptn-qualitygate-examples/simpleservice/keptn
-./setupDynatraceSLIService.sh
-kubectl -n keptn get pods | grep dynatrace-sli-service
+cd ~
+git clone --branch 0.6.0 https://github.com/keptn-contrib/neoload-sli-provider --single-branch
+
+cd ~/neoload-sli-provider/installer/
+./deployNeoLoadWeb.sh
+```
+### Enable NeoLoad sli service withig Keptn Ligthhouse
+```
+cd ~/keptn-onboarding/
+kubectl apply -f lighthouse-source-neoload.yaml
 ```
 
-### enable SLI service within Keptn Lighthouse
+### add neoload SLI resources
 
 ```
-cd ~/keptn-qualitygate-examples/simpleservice/keptn
-./enableDynatraceSLIForProject.sh keptnorders
+cd ~/keptn-onboarding/frontend
+keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+
+cd ~/keptn-onboarding/order
+keptn add-resource --project=keptnorders --service=order --stage=staging --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+keptn add-resource --project=keptnorders --service=order --stage=production --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+
+cd ~/keptn-onboarding/customer
+keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+keptn add-resource --project=keptnorders --service=customer --stage=production --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+
+cd ~/keptn-onboarding/catalog
+keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
+keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=quality-gates/sli.yaml --resourceUri=neoload/sli.yaml
 ```
+
+
 
 ### Add NeoLoad testing resources files
 

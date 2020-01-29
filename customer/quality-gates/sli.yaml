@@ -1,0 +1,33 @@
+
+spec_version: '1.0'
+indicators:
+    hit_per_second:
+      metryType: GLOBAL
+      scope: AGGREGATED
+      statistics: ELEMENTS_PER_SECOND
+    avg_response_time:
+      metryType: GLOBAL
+      scope: AGGREGATED
+      statistics: AVG_DURATION
+    throughput:
+      metryType: GLOBAL
+      scope: AGGREGATED
+      statistics: DOWNLOADED_BYTES_PER_SECOND
+    addcustomer_p95:
+      metryType: TRANSACTION
+      scope: AGGREGATED
+      statistics: P95
+      elementName: Add customer
+    error_nl_rate:
+      metryType: GLOBAL
+      scope: AGGREGATED
+      statistics: FAILURE_RATE
+    basicCheck_p99:
+      metryType: TRANSACTION
+      scope: AGGREGATED
+      statistics: P99
+      elementName: Basic Check
+
+
+
+
