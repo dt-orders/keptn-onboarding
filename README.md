@@ -164,6 +164,7 @@ cd ~
 git clone --branch 0.6.0 https://github.com/keptn-contrib/neoload-sli-provider --single-branch
 
 cd ~/neoload-sli-provider/installer/
+./defineNeoLoadWebCredentials
 ./deployNeoLoadWeb.sh
 ```
 ### Enable NeoLoad sli service withig Keptn Ligthhouse
@@ -218,8 +219,10 @@ cd ~/keptn-onboarding/catalog/neoload/production
 keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
 ```
 
-
-
+### remove the jmeter service
+```   
+kubectl delete deployment jmeter-service-deployment-distributor -n keptn
+```   
 ### send deployment events
 
 For the first time, ensure that the keptn CLI returns to the prompt without errors and that each 
