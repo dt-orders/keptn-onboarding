@@ -13,6 +13,8 @@ Assumptions:
   * this repo for project files -- https://github.com/keptn-orders/keptn-onboarding.git
 * You have [Neoload Web](https://neoload.saas.neotys.com) account. Generate an [API token](https://www.neotys.com/documents/doc/nlweb/latest/en/html/#24270.htm)
 * Create NeoLoad Web [Managed Zone for the Load Testing INfrastructure used by Keptn](https://www.neotys.com/documents/doc/nlweb/latest/en/html/#27521.htm#o39043)
+              
+
 # Cluster setup
 
 For requirements and example provisioning script, refer to [Keptn docs](https://keptn.sh/docs/0.6.0/installation/setup-keptn/#setup-kubernetes-cluster)
@@ -23,13 +25,14 @@ For requirements and example provisioning script, refer to [Keptn docs](https://
   * assumes GKE cluster - **tested with machine name: n1-standard-16 and cluster version: 1.13.11-gke.14**
   * assumes have installed kubectl, gcloud cli, jq
   * python 2.7 (required for Ubuntu 19.04)
-
+* to use a bastion host on [GKE here is a link a documentation](https://github.com/keptn-orders/keptn-orders-setup/blob/master/GOOGLE.md)
 ## Amazon EKS cluster
 
 **NOTE**
   * assumes EKS cluster - **tested with node-type=m5.2xlarge and cluster version 1.14** 
   * sub domain in route53
   * assumes have installed eksctl, kubectl, aws cli, jq
+
 
 # Scripts to setup Keptn and the keptn-orders application
 
