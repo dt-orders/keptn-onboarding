@@ -2,28 +2,28 @@
 spec_version: '1.0'
 indicators:
     hit_per_second:
-      metryType: GLOBAL
+      metricType: GLOBAL
       scope: AGGREGATED
       statistics: ELEMENTS_PER_SECOND
     avg_response_time:
-      metryType: GLOBAL
+      metricType: GLOBAL
       scope: AGGREGATED
       statistics: AVG_DURATION
     throughput:
-      metryType: GLOBAL
+      metricType: GLOBAL
       scope: AGGREGATED
       statistics: DOWNLOADED_BYTES_PER_SECOND
     additem_p95:
-      metryType: TRANSACTION
+      metricType: TRANSACTION
       scope: AGGREGATED
       statistics: P95
       elementName: Add Item
     error_nl_rate:
-      metryType: GLOBAL
+      metricType: GLOBAL
       scope: AGGREGATED
       statistics: FAILURE_RATE
     basicCheck_p99:
-      metryType: TRANSACTION
+      metricType: TRANSACTION
       scope: AGGREGATED
       statistics: P99
       elementName: Basic Check
