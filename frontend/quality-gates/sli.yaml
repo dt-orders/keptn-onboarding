@@ -27,7 +27,11 @@ indicators:
       scope: AGGREGATED
       statistics: P99
       elementName: Customer
-
+    controllerCPU:
+      metricType: MONITORING
+      scope: AGGREGATED
+      statistics: AVG
+      elementName: Controller/CPU Load
 
 
 

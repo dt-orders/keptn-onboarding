@@ -30,6 +30,13 @@ objectives:
     warning:
     - criteria:
         - "<=2%"
+  - sli: controllerCPU
+    pass:
+    - criteria:
+      - "<=80"
+    warning:
+    - criteria:
+      - "<=90"
 total_score:
   pass: "90%"
   warning: "75%"

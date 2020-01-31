@@ -27,6 +27,11 @@ indicators:
       scope: AGGREGATED
       statistics: P99
       elementName: Basic Check
+    controllerCPU:
+      metricType: MONITORING
+      scope: AGGREGATED
+      statistics: AVG
+      elementName: Controller/CPU Load
 
 
 
