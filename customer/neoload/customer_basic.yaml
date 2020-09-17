@@ -59,17 +59,3 @@ populations:
   user_paths:
   - name: CustomerLoad
     distribution: 100%
-scenarios:
-- name: BasicCheck
-  populations:
-  - name: BasicCheck
-    constant_load:
-      users: 1
-      duration: 15 iterations
-- name: CustomerLoad
-  populations:
-  - name: BasicCheck
-    constant_load:
-      users: 30
-      duration: 4m
-      rampup: 30s

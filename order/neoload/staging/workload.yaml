@@ -1,22 +1,21 @@
-steps:
-- step:
+workloads:
+- teststrategy: performance
+  script:
     repository: https://github.com/keptn-orders/keptn-onboarding.git
     branch: neoload
-    teststrategy: performance
     project:
     - path: /order/neoload/order_basic.yaml
+    - path: /customer/neoload/staging/order_scenario.yaml
     - path: /order/neoload/load_template/load_template.nlp
+  properties:
+    scenario: OrderLoad
     constant_variables:
     - name: server_host
-      value: order.keptnorders-production.svc.cluster.local
+      value: order.keptnorders-staging.svc.cluster.local
     - name: server_port
       value: 80
     description: OrderLoad
-    scenario: OrderLoad
-    infrastructure:
-      local_LG:
-      - name: lg1
-      populations:
-      - name: OrderLoad
-        lgs:
-        - name: lg1
+  infrastructure:
+    managedbyKeptn: true
+    numberOfMachine: 1
+    zoneId: On10d

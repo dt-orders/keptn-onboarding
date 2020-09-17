@@ -1,22 +1,21 @@
-steps:
-- step:
+workloads:
+- teststrategy: performance
+  script:
     repository: https://github.com/keptn-orders/keptn-onboarding.git
     branch: neoload
-    teststrategy: performance
     project:
     - path: /frontend/neoload/frontend_basic.yaml
+    - path: /customer/neoload/production/frontend_scenario.yaml
     - path: /frontend/neoload/load_template/load_template.nlp
+  properties:
+    scenario: FrontLoad
     constant_variables:
     - name: server_host
-      value: frontend.keptnorders-staging.svc.cluster.local
+      value: frontend.keptnorders-production.svc.cluster.local
     - name: server_port
       value: 80
     description: FrontLoad
-    scenario: FrontLoad
-    infrastructure:
-      local_LG:
-      - name: lg1
-      populations:
-      - name: BasicCheck
-        lgs:
-        - name: lg1
+  infrastructure:
+    managedbyKeptn: false
+    numberOfMachine: 1
+    zoneId: cz104

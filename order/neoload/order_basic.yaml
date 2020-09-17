@@ -57,17 +57,3 @@ populations:
   user_paths:
   - name: OrderLoad
     distribution: 100%
-scenarios:
-- name: BasicCheck
-  populations:
-  - name: BasicCheck
-    constant_load:
-      users: 1
-      duration: 15 iterations
-- name: OrderLoad
-  populations:
-  - name: BasicCheck
-    constant_load:
-      users: 30
-      duration: 3m
-      rampup: 30s

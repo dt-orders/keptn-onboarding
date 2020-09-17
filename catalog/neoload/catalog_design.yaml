@@ -59,17 +59,3 @@ populations:
   user_paths:
   - name: CatalogLoad
     distribution: 100%
-scenarios:
-- name: BasicCheck
-  populations:
-  - name: BasicCheck
-    constant_load:
-      users: 1
-      duration: 15 iterations
-- name: Catalogload
-  populations:
-  - name: Catalogload
-    constant_load:
-      users: 30
-      duration: 2m
-      rampup: 30s

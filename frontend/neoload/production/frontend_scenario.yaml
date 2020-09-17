@@ -1,0 +1,24 @@
+scenarios:
+- name: BasicCheck
+  populations:
+  - name: BasicCheck
+    constant_load:
+      users: 1
+      duration: 15 iterations
+- name: FrontLoad
+  populations:
+  - name: FrontLoad
+    constant_load:
+      users: 30
+      duration: 2m
+      rampup: 30s
+  apm_configuration:
+    dynatrace_tags:
+    - keptn_project: keptnorders
+    - keptn_service: frontend
+    - keptn_stage: production
+    dynatrace_anomaly_rules:
+    - metric_id: builtin:service.responsetime
+      operator: ABOVE
+      value: 100
+      severity: PERFORMANCE

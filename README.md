@@ -43,9 +43,7 @@ Assumes using linux or mac and commands below assume they will be run from the h
 
 ```
 cd ~
-wget https://storage.googleapis.com/keptn-cli/0.6.0.beta2-20191205.1326/keptn-linux.zip
-unzip keptn-linux.zip
-sudo mv keptn /usr/local/bin/keptn
+curl -sL https://get.keptn.sh | sudo -E bash
 keptn version
 ```
 
@@ -55,10 +53,10 @@ keptn version
 
 ```
 # for Google GKE cluster
-keptn install --keptn-version=release-0.6.0.beta2 --platform=gke
+keptn install --keptn-version=release-0.7.1 --use-case=continuous-delivery
 
 # for Amazon EKS cluster
-keptn install --keptn-version=release-0.6.0.beta2 --platform=eks
+keptn install --keptn-version=release-0.7.1 --use-case=continuous-delivery
 
 # for either cluster 
 kubectl -n keptn get pods
@@ -71,39 +69,41 @@ kubectl -n keptn get pods
 You MUST first take the ELB value and update Route53 Hosted Zone subdomain
 ```
 export DOMAIN=$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
-keptn configure domain $DOMAIN --keptn-version=release-0.6.0.beta2
+keptn configure domain $DOMAIN --keptn-version=release-0.7.1
 ```
 
-### expose bridge
-
-```
-cd ~
-git clone https://github.com/grabnerandi/keptn-qualitygate-examples.git
-cd ~/keptn-qualitygate-examples/simpleservice/keptn/
-./exposeBridge.sh
-echo "View bridge @ https://bridge.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})/#/"
-```
 
 ### Dynatrace install
-
+1. Configure Dynatrace variables
 ```
-cd ~
-git clone --branch 0.5.0 https://github.com/keptn-contrib/dynatrace-service --single-branch
-
-cd ~/dynatrace-service/deploy/scripts
-./defineDynatraceCredentials.sh
-./deployDynatraceOnEKS.sh
-kubectl -n dynatrace get pods -w
+export DT_TENANT=yourtenant.live.dynatrace.com
+export DT_API_TOKEN=yourAPItoken
+export DT_PAAS_TOKEN=yourPAAStoken
+```
+2. Create the dynatrace secret 
+```
+kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN"  --from-literal="DT_PAAS_TOKEN=$DT_PAAS_TOKEN" --from-literal="KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/api" --from-literal="KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)" --from-literal="KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge" 
+```
+3. Deploy OneAgent Operator
+```
+curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
+chmod +x deploy-dynatrace-oneagent.sh
+./deploy-dynatrace-oneagent.sh
+```
+4. Install Dynatrace integration
+```
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml -n keptn
+keptn configure monitoring dynatrace
 ```
 ## NeoLoad Service install
 
 ```
 cd ~
-git clone --branch 0.6.0 https://github.com/keptn-contrib/neoload-service --single-branch
+git clone --branch 0.7.0 https://github.com/keptn-contrib/neoload-service --single-branch
 
 cd ~/neoload-service/installer/
 ./defineNeoLoadWebCredentials.sh
-./deployNeoLoadWeb.sh
+./deployNeoLoadWebWithDynatrace.sh keptn
 ```
 ### create keptn project
 
@@ -153,22 +153,20 @@ keptn add-resource --project=keptnorders --service=catalog --stage=production --
 ### install Dynatrace SLI service
 
 ```
-cd ~
-git clone https://github.com/keptn-contrib/dynatrace-sli-service
-cd ~/dynatrace-sli-service
-kubectl apply -f deploy/service.yaml
-kubectl apply -f deploy/distributor.yaml
+kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-sli-service/0.6.0/deploy/service.yaml -n ketpn
+keptn configure monitoring dynatrace --project=keptnorders
+
 ```
 
 ### install NeoLoad SLI service
 
 ```
 cd ~
-git clone --branch 0.6.0 https://github.com/keptn-contrib/neoload-sli-provider --single-branch
+git clone --branch 0.7.0 https://github.com/keptn-contrib/neoload-sli-provider --single-branch
 
 cd ~/neoload-sli-provider/installer/
 ./defineNeoLoadWebCredentials
-./deployNeoLoadWeb.sh
+./deployNeoLoadWeb.sh neoload
 ```
 ### Enable NeoLoad sli service withig Keptn Ligthhouse
 ```
@@ -202,24 +200,24 @@ keptn add-resource --project=keptnorders --service=catalog --stage=production --
 
 ```
 cd ~/keptn-onboarding/frontend/neoload/staging
-keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=frontend --stage=staging --resource=workload.yaml --resourceUri=workload.yaml
 cd ~/keptn-onboarding/frontend/neoload/production
-keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=frontend --stage=production --resource=workload.yaml --resourceUri=workload.yaml
 
 cd ~/keptn-onboarding/order/neoload/staging
-keptn add-resource --project=keptnorders --service=order --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=order --stage=staging --resource=workload.yaml --resourceUri=workloade.yaml
 cd ~/keptn-onboarding/order/neoload/production
-keptn add-resource --project=keptnorders --service=order --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=order --stage=production --resource=workload.yaml --resourceUri=workload.yaml
 
 cd ~/keptn-onboarding/customer/neoload/staging
-keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=customer --stage=staging --resource=workload.yaml --resourceUri=workload.yaml
 cd ~/keptn-onboarding/customer/neoload/production
-keptn add-resource --project=keptnorders --service=customer --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=customer --stage=production --resource=workload.yaml --resourceUri=workload.yaml
 
 cd ~/keptn-onboarding/catalog/neoload/staging
-keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=catalog --stage=staging --resource=workload.yaml --resourceUri=workload.yaml
 cd ~/keptn-onboarding/catalog/neoload/production
-keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=keptn.neoload.engine.yaml --resourceUri=keptn.neoload.engine.yaml
+keptn add-resource --project=keptnorders --service=catalog --stage=production --resource=workload.yaml --resourceUri=workload.yaml
 ```
 
 ### remove the jmeter service
