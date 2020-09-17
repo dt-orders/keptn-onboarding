@@ -14,7 +14,7 @@ scenarios:
       rampup: 30s
   apm_configuration:
     dynatrace_tags:
-    - keptn_project: keptnorders
+    - keptn_project: keptnorder
     - keptn_service: frontend
     - keptn_stage: production
     dynatrace_anomaly_rules:

@@ -5,13 +5,13 @@ workloads:
     branch: neoload
     project:
     - path: /frontend/neoload/frontend_basic.yaml
-    - path: /customer/neoload/staging/frontend_scenario.yaml
+    - path: /frontend/neoload/staging/frontend_scenario.yaml
     - path: /frontend/neoload/load_template/load_template.nlp
   properties:
     scenario: FrontLoad
     constant_variables:
     - name: server_host
-      value: frontend.keptnorders-staging.svc.cluster.local
+      value: frontend.keptnorder-staging.svc.cluster.local
     - name: server_port
       value: 80
     description: FrontLoad

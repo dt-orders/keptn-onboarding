@@ -5,13 +5,13 @@ workloads:
     branch: neoload
     project:
     - path: /order/neoload/order_basic.yaml
-    - path: /customer/neoload/production/order_scenario.yaml
+    - path: /order/neoload/production/order_scenario.yaml
     - path: /order/neoload/load_template/load_template.nlp
   properties:
     scenario: OrderLoad
     constant_variables:
     - name: server_host
-      value: order.keptnorders-production.svc.cluster.local
+      value: order.keptnorder-production.svc.cluster.local
     - name: server_port
       value: 80
     description: OrderLoad
