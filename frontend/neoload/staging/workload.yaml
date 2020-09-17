@@ -14,7 +14,7 @@ workloads:
       value: frontend.keptnorder-staging.svc.cluster.local
     - name: server_port
       value: 80
-    description: FrontLoad
+  description: FrontLoad
   infrastructure:
     managedbyKeptn: false
     numberOfMachine: 1

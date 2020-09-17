@@ -222,7 +222,7 @@ keptn add-resource --project=keptnorders --service=catalog --stage=production --
 
 ### remove the jmeter service
 ```   
-kubectl delete deployment jmeter-service-deployment-distributor -n keptn
+kubectl delete deployment jmeter-service -n keptn
 ```   
 ### send deployment events
 
@@ -241,8 +241,8 @@ keptn send event new-artifact --project=keptnorders --service=order --image=robj
 
 ```
 # view progess on keptn bridge
-echo "View bridge @ https://bridge.keptn.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})/#/"
-
+echo "View keptn url $(keptn status})"
+echo "View bridge credentials   $(keptn configure bridge --output})"
 # view front-end
 echo "STAGING    @ https://frontend.keptnorders-staging.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"
 echo "PRODUCTION @ https://frontend.keptnorders-production.$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})"i\

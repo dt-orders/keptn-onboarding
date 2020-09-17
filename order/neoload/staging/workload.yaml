@@ -14,7 +14,7 @@ workloads:
       value: order.keptnorder-staging.svc.cluster.local
     - name: server_port
       value: 80
-    description: OrderLoad
+  description: OrderLoad
   infrastructure:
     managedbyKeptn: true
     numberOfMachine: 1

@@ -14,7 +14,7 @@ workloads:
       value: customer.keptnorder-production.svc.cluster.local
     - name: server_port
       value: 80
-    description: CustomerLoad
+  description: CustomerLoad
   infrastructure:
     managedbyKeptn: true
     numberOfMachine: 1
