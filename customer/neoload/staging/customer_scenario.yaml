@@ -14,9 +14,9 @@ scenarios:
       rampup: 30s
   apm_configuration:
     dynatrace_tags:
-    - keptn_project: keptnorder
-    - keptn_service: customer
-    - keptn_stage: staging
+    - "keptn_project:keptnorder"
+    - "keptn_service:customer"
+    - "keptn_stage:staging"
     dynatrace_anomaly_rules:
     - metric_id: builtin:service.responsetime
       operator: ABOVE
