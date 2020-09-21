@@ -11,7 +11,7 @@ workloads:
     scenario: FrontLoad
     constant_variables:
     - name: server_host
-      value: frontend.keptnorder-production.svc.cluster.local
+      value: frontend.keptnorder-production.35.205.124.152.nip.io
     - name: server_port
       value: 80
   description: FrontLoad
