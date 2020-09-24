@@ -230,10 +230,10 @@ For the first time, ensure that the keptn CLI returns to the prompt without erro
 service completes the deployment into staging before sending next event by monitoring the keptn bridge
 
 ```
-keptn send event new-artifact --project=keptnorders --service=frontend --image=robjahn/keptn-orders-front-end --tag=1
-keptn send event new-artifact --project=keptnorders --service=customer --image=robjahn/keptn-orders-customer-service --tag=1
-keptn send event new-artifact --project=keptnorders --service=catalog --image=robjahn/keptn-orders-catalog-service --tag=1
-keptn send event new-artifact --project=keptnorders --service=order --image=robjahn/keptn-orders-order-service --tag=1
+keptn send event new-artifact --project=keptnorders --service=frontend --image=dtdemos/keptn-orders-front-end --tag=1
+keptn send event new-artifact --project=keptnorders --service=customer --image=dtdemos/keptn-orders-customer-service --tag=1
+keptn send event new-artifact --project=keptnorders --service=catalog --image=dtdemos/keptn-orders-catalog-service --tag=1
+keptn send event new-artifact --project=keptnorders --service=order --image=dtdemos/keptn-orders-order-service --tag=1
 ```
 
 ### Monitor and view application
