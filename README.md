@@ -1,3 +1,5 @@
+# :rotating_light: This project is still here for reference.  Check out the tutorials on maintained in [Keptn website](https://keptn.sh) repo :rotating_light:
+
 # Overview
 
 This is repo contains the helm charts and load testing scripts to deploy the keptn-orders
