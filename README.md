@@ -5,7 +5,7 @@ application.
 
 Assumptions:
 * You provide a Kubernetes cluster
-* You want keptn 0.6.0.beta2
+* You want keptn 0.8.0.
 * You have [Dynatrace tenant](https://www.dynatrace.com/trial/) with API and PaaS token
 * will clone scripts from from these repos to your home directory
   * helper scripts -- https://github.com/grabnerandi/keptn-qualitygate-examples.git
@@ -43,7 +43,7 @@ Assumes using linux or mac and commands below assume they will be run from the h
 
 ```
 cd ~
-curl -sL https://get.keptn.sh | sudo -E bash
+curl -sL https://get.keptn.sh | KEPTN_VERSION=0.8.0 bash
 keptn version
 ```
 
@@ -53,10 +53,10 @@ keptn version
 
 ```
 # for Google GKE cluster
-keptn install --keptn-version=release-0.7.1 --use-case=continuous-delivery
+keptn install --keptn-version=release-0.8.0 --endpoint-service-type=ClusterIP --use-case=continuous-delivery
 
 # for Amazon EKS cluster
-keptn install --keptn-version=release-0.7.1 --use-case=continuous-delivery
+keptn install --keptn-version=release-0.7.1 --use-case=continuous-delivery --endpoint-service-type=LoadBalancer
 
 # for either cluster 
 kubectl -n keptn get pods
@@ -68,38 +68,126 @@ kubectl -n keptn get pods
 
 You MUST first take the ELB value and update Route53 Hosted Zone subdomain
 ```
-export DOMAIN=$(kubectl get cm keptn-domain -n keptn -ojsonpath={.data.app_domain})
-keptn configure domain $DOMAIN --keptn-version=release-0.7.1
+Get the public ip of your ELB created on your cluster ( EC2/LoadBalancer copy the name. Go to network interface and select the network interface of you ELB to get the public ip).
+Update your Root53 DNS to create an alias pointing to your ELB.
+
+Once configured :
+KEPTN_ENDPOINT=http://<ENDPOINT_OF_API_GATEWAY>/api
 ```
 
+#### install Istio
+***ONLY REQUIRED FOR AMAZON Google Cloud***
+Before installing Keptn you will need to : 
+Download the Istio command line tool by following the []official instructions](https://istio.io/latest/docs/setup/install/) or by executing the following steps.
+```
+curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.8.2 sh -
+```
+Check the version of Istio that has been downloaded and execute the installer from the corresponding folder, e.g.,
+```
+./istio-1.8.2/bin/istioctl install
+```
+The installation of Istio should be finished within a couple of minutes.
+```
+This will install the Istio default profile with ["Istio core" "Istiod" "Ingress gateways"] components into the cluster. Proceed? (y/N) y
+✔ Istio core installed
+✔ Istiod installed
+✔ Ingress gateways installed
+✔ Installation complete
+```
+#### Configure Istio and Keptn
+Once Keptn has been installed
 
-### Dynatrace install
-1. Configure Dynatrace variables
+We are using Istio for traffic routing and as an ingress to our cluster.
+ To make the setup experience as smooth as possible we have provided some scripts for your convenience. If you want to run the Istio configuration yourself step by step, please [take a look at the Keptn documentation](https://keptn.sh/docs/0.8.x/operate/install/#option-3-expose-keptn-via-an-ingress).
+
+The first step for our configuration automation for Istio is downloading the configuration bash script from Github:
 ```
-export DT_TENANT=yourtenant.live.dynatrace.com
-export DT_API_TOKEN=yourAPItoken
-export DT_PAAS_TOKEN=yourPAAStoken
+curl -o configure-istio.sh https://raw.githubusercontent.com/keptn/examples/release-0.8.0/istio-configuration/configure-istio.sh
 ```
-2. Create the dynatrace secret 
+After that you need to make the file executable using the chmod command.
 ```
-kubectl -n keptn create secret generic dynatrace --from-literal="DT_TENANT=$DT_TENANT" --from-literal="DT_API_TOKEN=$DT_API_TOKEN"  --from-literal="DT_PAAS_TOKEN=$DT_PAAS_TOKEN" --from-literal="KEPTN_API_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/api" --from-literal="KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)" --from-literal="KEPTN_BRIDGE_URL=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/bridge" 
+chmod +x configure-istio.sh
 ```
-3. Deploy OneAgent Operator
+Finally, let's run the configuration script to automatically create your Ingress resources.
 ```
-curl -o deploy-dynatrace-oneagent.sh https://raw.githubusercontent.com/keptn/examples/release-0.7.0/dynatrace-oneagent/deploy-dynatrace-oneagent.sh
-chmod +x deploy-dynatrace-oneagent.sh
-./deploy-dynatrace-oneagent.sh
+./configure-istio.sh
 ```
-4. Install Dynatrace integration
+### Connect your Keptn CLI to the Keptn installation
+#### FOR EKS
+Set the environment variable KEPTN_API_TOKEN:
 ```
-kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/0.8.0/deploy/service.yaml -n keptn
-keptn configure monitoring dynatrace
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath={.data.keptn-api-token} | base64 --decode)
 ```
+To authenticate the CLI against the Keptn cluster, use the keptn auth command:
+```
+keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
+```
+#### FOR GKE
+```
+KEPTN_ENDPOINT=http://$(kubectl -n keptn get ingress api-keptn-ingress -ojsonpath='{.spec.rules[0].host}')/api
+KEPTN_API_TOKEN=$(kubectl get secret keptn-api-token -n keptn -ojsonpath='{.data.keptn-api-token}' | base64 --decode)
+```
+Use this stored information and authenticate the CLI.
+```
+keptn auth --endpoint=$KEPTN_ENDPOINT --api-token=$KEPTN_API_TOKEN
+```
+### Authenticate Keptn Bridge
+After installling and exposing Keptn, you can access the Keptn Bridge by using a browser and navigating to the Keptn endpoint without the api path at the end of the URL.
+
+The Keptn Bridge has basic authentication enabled by default and the default user is keptn with an automatically generated password.
+To get the user and password for authentication, execute:
+```
+keptn configure bridge --output
+```
+### Dynatrace install 
+1. Deploy the dynatrace OneAgent Operator
+To monitor a Kubernetes environment using Dynatrace, please setup dynatrace-operator as described below, or visit the official [Dynatrace documentation](https://www.dynatrace.com/support/help/technology-support/cloud-platforms/kubernetes/deploy-oneagent-k8/).
+For setting up dynatrace-operator, perform the following steps:
+
+    1. Log into your Dynatrace environment
+    2. Open Dynatrace Hub (on the left hand side, scroll down to Manage and click on Deploy Dynatrace)
+    3. Within Dynatrace Hub, search for Kubernetes
+    4. Click on Kubernetes, and select Monitor Kubernetes at the bottom of the screen
+    5. In the following screen, select the Platform, a PaaS and API Token, and the oenagent installation options (e.g., for GKE you need to enable volume storage).
+    6. Copy the generated code and run it in a terminal/bash
+    7. Optional: Verify if all pods in the Dynatrace namespace are running. It might take up to 1-2 minutes for all pods to be up and running.
+    ```
+    kubectl get pods -n dynatrace
+    ```
+    ```
+    NAME                                          READY   STATUS    RESTARTS   AGE
+    dynakube-kubemon-0                            1/1     Running   0          11h
+    dynatrace-oneagent-operator-cc9856cfd-hrv4x   1/1     Running   0          2d11h
+    dynatrace-oneagent-webhook-5d67c9bb76-pz2gh   2/2     Running   0          2d11h
+    dynatrace-operator-fb56f7f59-pf5sg            1/1     Running   0          2d11h
+    oneagent-gc2lc                                1/1     Running   0          35h
+    oneagent-w7msm                                1/1     Running   0          35h
+    ```
+2. Install Dynatrace integration
+    1. The Dynatrace integration into Keptn is handled by the dynatrace-service. To install the dynatrace-service, execute:
+     ```
+    kubectl apply -f https://raw.githubusercontent.com/keptn-contrib/dynatrace-service/release-0.11.0/deploy/service.yaml -n keptn
+     ```
+    2. When the service is deployed, use the following command to install Dynatrace on your cluster. If Dynatrace is already deployed, the current deployment of Dynatrace will not be modified.
+     ```
+    keptn configure monitoring dynatrace
+     ```
+    The output of the command will tell you what has been set up in your Dynatrace environment:
+     ```
+    ID of Keptn context: 79f19c36-b718-4bb6-88d5-cb79f163289b
+    Dynatrace monitoring setup done.
+    The following entities have been configured:
+        
+    ...
+    ---Problem Notification:--- 
+      - Successfully set up Keptn Alerting Profile and Problem Notifications
+    ...
+
 ## NeoLoad Service install
 
 ```
 cd ~
-git clone --branch 0.7.0 https://github.com/keptn-contrib/neoload-service --single-branch
+git clone --branch 0.8.0 https://github.com/keptn-contrib/neoload-service --single-branch
 
 cd ~/neoload-service/installer/
 ./defineNeoLoadWebCredentials.sh

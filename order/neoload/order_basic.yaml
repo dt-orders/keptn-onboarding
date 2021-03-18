@@ -48,6 +48,7 @@ user_paths:
                  "unitPrice":"99.99"
               }
     - think_time: 250ms
+
 populations:
 - name: BasicCheck
   user_paths:

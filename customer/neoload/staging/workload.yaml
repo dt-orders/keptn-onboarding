@@ -16,6 +16,6 @@ workloads:
       value: 80
   description: CustomerLoad
   infrastructure:
-    managedbyKeptn: true
+    managedbyKeptn: false
     numberOfMachine: 1
-    zoneId: On10d
+    zoneId: cz104
